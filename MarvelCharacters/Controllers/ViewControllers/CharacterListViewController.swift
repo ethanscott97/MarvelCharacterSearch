@@ -67,12 +67,11 @@ class CharacterListViewController: UIViewController, UITableViewDelegate, UITabl
         if indexPath.row == characters.count - 1 && resultsShowing < totalResults {
             if !didSearch {
                 print("loading more characters")
-                CharacterController.fetchAllCharacters(offset: resultsShowing) { [weak self] result in
+                CharacterController.fetchAllCharacters(offset: resultsShowing) { result in
                     DispatchQueue.main.async {
                         switch result {
                         
                         case .success(let data):
-                            guard let self = self else {return}
                             self.characters += data.0
                             self.totalResults = data.1
                             self.tableview.reloadData()
@@ -83,12 +82,11 @@ class CharacterListViewController: UIViewController, UITableViewDelegate, UITabl
                 }
             } else {
                 guard let searchText = searchBar.text else {return}
-                CharacterController.fetchCharactersWith(searchTerm: searchText, offset: resultsShowing) { [weak self] result in
+                CharacterController.fetchCharactersWith(searchTerm: searchText, offset: resultsShowing) { result in
                     DispatchQueue.main.async {
                         switch result {
                         
                         case .success(let data):
-                            guard let self = self else {return}
                             self.characters += data.0
                             self.totalResults = data.1
                             self.tableview.reloadData()
@@ -114,12 +112,11 @@ class CharacterListViewController: UIViewController, UITableViewDelegate, UITabl
         searchBar.resignFirstResponder()
         guard let searchTerm = searchBar.text, !searchTerm.isEmpty else {return}
         
-        CharacterController.fetchCharactersWith(searchTerm: searchTerm.lowercased(), offset: 0) { [weak self] result in
+        CharacterController.fetchCharactersWith(searchTerm: searchTerm.lowercased(), offset: 0) { result in
             DispatchQueue.main.async {
                 switch result {
                 
                 case .success(let data):
-                    guard let self = self else {return}
                     self.characters = data.0
                     self.totalResults = data.1
                     self.tableview.reloadData()
@@ -135,12 +132,11 @@ class CharacterListViewController: UIViewController, UITableViewDelegate, UITabl
     //MARK: - Functions
     func getAllCharacters() {
         let offset = self.characters.count
-        CharacterController.fetchAllCharacters(offset: offset) { [weak self] result in
+        CharacterController.fetchAllCharacters(offset: offset) { result in
             DispatchQueue.main.async {
                 switch result {
                 
                 case .success(let data):
-                    guard let self = self else {return}
                     self.characters = data.0
                     self.totalResults = data.1
                     self.tableview.reloadData()
