@@ -66,7 +66,6 @@ class CharacterListViewController: UIViewController, UITableViewDelegate, UITabl
         
         if indexPath.row == characters.count - 1 && resultsShowing < totalResults {
             if !didSearch {
-                print("loading more characters")
                 CharacterController.fetchAllCharacters(offset: resultsShowing) { result in
                     DispatchQueue.main.async {
                         switch result {
@@ -75,6 +74,7 @@ class CharacterListViewController: UIViewController, UITableViewDelegate, UITabl
                             self.characters += data.0
                             self.totalResults = data.1
                             self.tableview.reloadData()
+                            print("Loading more characters: \(self.characters.count) of \(self.totalResults)")
                         case .failure(let error):
                             print("Error in \(#function) : \(error.localizedDescription) \n---\n \(error)")
                         }
@@ -90,6 +90,7 @@ class CharacterListViewController: UIViewController, UITableViewDelegate, UITabl
                             self.characters += data.0
                             self.totalResults = data.1
                             self.tableview.reloadData()
+                            print("Loading more characters: \(self.characters.count) of \(self.totalResults)")
                         case .failure(let error):
                             print("Error in \(#function) : \(error.localizedDescription) \n---\n \(error)")
                         }
@@ -110,6 +111,7 @@ class CharacterListViewController: UIViewController, UITableViewDelegate, UITabl
     //MARK: - SearchBar Functions
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
+        
         guard let searchTerm = searchBar.text, !searchTerm.isEmpty else {return}
         
         CharacterController.fetchCharactersWith(searchTerm: searchTerm.lowercased(), offset: 0) { result in
@@ -121,6 +123,7 @@ class CharacterListViewController: UIViewController, UITableViewDelegate, UITabl
                     self.totalResults = data.1
                     self.tableview.reloadData()
                     self.didSearch = true
+                    print("Loading characters: \(self.characters.count) of \(self.totalResults)")
                 case .failure(let error):
                     print("Error in \(#function) : \(error.localizedDescription) \n---\n \(error)")
                 }
@@ -140,6 +143,7 @@ class CharacterListViewController: UIViewController, UITableViewDelegate, UITabl
                     self.characters = data.0
                     self.totalResults = data.1
                     self.tableview.reloadData()
+                    print("Loading characters: \(self.characters.count) of \(self.totalResults)")
                 case .failure(let error):
                     print("Error in \(#function) : \(error.localizedDescription) \n---\n \(error)")
                 }
