@@ -1,0 +1,21 @@
+{
+  "images" : [
+    {
+      "filename" : "104780698-halftone-texture-comic-book-superhero-vector-background.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
